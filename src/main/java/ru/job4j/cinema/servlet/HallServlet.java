@@ -26,14 +26,12 @@ public class HallServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         System.out.println("doGet");
-        Place[] places = PsqlHallStore.instOf().getPlaces();
-        System.out.println(places.length);
+        List<Place> places = PsqlHallStore.instOf().getPlaces();
         JSONObject obj = new JSONObject();
         obj.put("rowsNum", PsqlHallStore.instOf().getNumOfRows());
         obj.put("colsNum", PsqlHallStore.instOf().getNumOfCols());
         JSONArray arr = new JSONArray();
         for (Place place : places) {
-            System.out.println(place);
             JSONObject placeObj = new JSONObject();
             placeObj.put("id", "" + place.getId());
             placeObj.put("filled", "" + place.isFilled());
@@ -49,17 +47,15 @@ public class HallServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Place[] places = PsqlHallStore.instOf().getPlaces();
+        List<Place> places = PsqlHallStore.instOf().getPlaces();
         List<Integer> reservedPlaces = new ArrayList<>();
         Set<Integer> alreadyFilled = PsqlHallStore.instOf().getFilledIds();
         for (Place place : places) {
-            System.out.println(place + " " + req.getParameter("place" + place.getId()));
             if (req.getParameter("place" + place.getId()) != null
             && !alreadyFilled.contains(place.getId())) {
                 reservedPlaces.add(place.getId());
             }
         }
-        System.out.println(reservedPlaces);
         req.setAttribute("reserved", reservedPlaces);
         req.getRequestDispatcher("/payment.jsp").forward(req, resp);
     }

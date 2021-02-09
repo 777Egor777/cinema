@@ -50,7 +50,7 @@ public class PsqlHallStore implements HallStore {
         try {
             Thread.sleep(100);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            LOG.error("Exception when Thread.Sleep in PsqlHallStore constructor", e);
         }
         createTable();
         init();
@@ -67,13 +67,10 @@ public class PsqlHallStore implements HallStore {
     }
 
     private void init() {
-        System.out.println("Init hall table");
         try (Connection cn = pool.getConnection();
              PreparedStatement ps = cn.prepareStatement("select * from " + TABLE_NAME);
              ResultSet rs = ps.executeQuery()) {
-            System.out.println("!!!");
             if (!rs.next()) {
-                System.out.println("!");
                 for (int i = 1; i <= numOfRows; ++i) {
                     for (int j = 1; j <= numOfCols; ++j) {
                         try (PreparedStatement prep = cn.prepareStatement(
@@ -86,14 +83,6 @@ public class PsqlHallStore implements HallStore {
                         }
                     }
                 }
-            } else {
-                System.out.println("!!");
-                System.out.println(new Place(
-                        rs.getInt(1),
-                        rs.getInt(2),
-                        rs.getInt(3),
-                        rs.getBoolean(4)
-                ));
             }
         } catch (Exception ex) {
             LOG.error("Exception when init db", ex);
@@ -119,7 +108,7 @@ public class PsqlHallStore implements HallStore {
     }
 
     @Override
-    public Place[] getPlaces() {
+    public List<Place> getPlaces() {
         List<Place> places = new ArrayList<>();
         try (Connection cn = pool.getConnection();
              PreparedStatement ps = cn.prepareStatement("select * from " + TABLE_NAME);
@@ -136,7 +125,7 @@ public class PsqlHallStore implements HallStore {
             LOG.error("Exception when extracting all places from db", ex);
         }
         places.sort(Place::compareTo);
-        return places.toArray(new Place[0]);
+        return places;
     }
 
     @Override
@@ -185,10 +174,5 @@ public class PsqlHallStore implements HallStore {
         } catch (Exception ex) {
             LOG.error("Exception when filling places to hall bd", ex);
         }
-    }
-
-    public static void main(String[] args) {
-        instOf().fillPlaces(List.of(4));
-        System.out.println(Arrays.toString(instOf().getPlaces()));
     }
 }

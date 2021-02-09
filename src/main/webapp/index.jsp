@@ -106,7 +106,7 @@
 
     /* When the checkbox is checked, add a blue background */
     .red input:checked ~ .checkmark-red {
-        background-color: #FF0000;
+        background-color: #ff0000;
     }
 
     /* Create the checkmark/indicator (hidden when not checked) */
@@ -170,7 +170,7 @@
                             let placeText = "Ряд " + (iRow+1) + ", Место " + (iCol+1);
                             if (places[i].filled === "true") {
                                 tdContent = "<label class=\"red\">" + placeText
-                                + "<input type=\"checkbox\" checked=\"checked\" disabled>"
+                                    + "<input type=\"checkbox\" checked=\"checked\" disabled>"
                                 + "<span class=\"checkmark-red\"></span></label>";
                             } else {
                                 tdContent = "<label class=\"green\">" + placeText

@@ -8,7 +8,7 @@ import java.util.Set;
 public interface HallStore {
     int getNumOfRows();
     int getNumOfCols();
-    Place[] getPlaces();
+    List<Place> getPlaces();
     Set<Integer> getFilledIds();
     Place getById(int id);
     void fillPlaces(List<Integer> placesId);

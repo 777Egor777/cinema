@@ -2,6 +2,7 @@ package ru.job4j.cinema.store;
 
 import ru.job4j.cinema.model.Place;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -14,13 +15,13 @@ import java.util.Set;
 public final class MemHallStore implements HallStore {
     private final int numOfRows = 3;
     private final int numOfCols = 3;
-    private final Place[] hall = new Place[numOfRows * numOfCols];
+    private final List<Place> hall = new ArrayList<>(numOfRows * numOfCols);
 
     private MemHallStore() {
         int i = 0;
         for (int row = 1; row <= numOfRows; ++row) {
             for (int col = 1; col <= numOfCols; ++col) {
-                hall[i] = new Place(i, row, col, false);
+                hall.set(i, new Place(i, row, col, false));
                 i++;
             }
         }
@@ -45,7 +46,7 @@ public final class MemHallStore implements HallStore {
     }
 
     @Override
-    public Place[] getPlaces() {
+    public List<Place> getPlaces() {
         return hall;
     }
 
@@ -62,13 +63,13 @@ public final class MemHallStore implements HallStore {
 
     @Override
     public Place getById(int id) {
-        return hall[id];
+        return hall.get(id);
     }
 
     @Override
     public void fillPlaces(List<Integer> placesId) {
         for (int placeId : placesId) {
-            hall[placeId] = hall[placeId].setFilled(true);
+            hall.set(placeId, hall.get(placeId).setFilled(true));
         }
     }
 }
