@@ -3,6 +3,9 @@ package ru.job4j.cinema.store;
 import java.util.*;
 
 /**
+ * Хранилище покупателей,
+ * использующее память.
+ *
  * @author Egor Geraskin(yegeraskin13@gmail.com)
  * @version 1.0
  * @since 22.01.2021

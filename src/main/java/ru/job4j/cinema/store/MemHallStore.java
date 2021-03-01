@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Set;
 
 /**
+ * Реализация хранилища кинозала,
+ * использующая память.
+ *
  * @author Egor Geraskin(yegeraskin13@gmail.com)
  * @version 1.0
  * @since 22.01.2021
@@ -15,13 +18,13 @@ import java.util.Set;
 public final class MemHallStore implements HallStore {
     private final int numOfRows = 3;
     private final int numOfCols = 3;
-    private final List<Place> hall = new ArrayList<>(numOfRows * numOfCols);
+    private final List<Place> hall = new ArrayList<>();
 
     private MemHallStore() {
         int i = 0;
         for (int row = 1; row <= numOfRows; ++row) {
             for (int col = 1; col <= numOfCols; ++col) {
-                hall.set(i, new Place(i, row, col, false));
+                hall.add(i, new Place(i, row, col, false));
                 i++;
             }
         }

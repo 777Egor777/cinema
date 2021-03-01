@@ -165,8 +165,7 @@
                     for (let iRow = 0; iRow < rowsNum; iRow++) {
                         content+= '<tr><th>' + (iRow + 1) + '</th>';
                         for (let iCol = 0; iCol < colsNum; iCol++) {
-                            let tdContent = "";//"<input type=\"checkbox\" name=\"place" + places[i].id
-                            //+ "\" value=\"" + places[i].id + "\"" + ">";
+                            let tdContent = "";
                             let placeText = "Ряд " + (iRow+1) + ", Место " + (iCol+1);
                             if (places[i].filled === "true") {
                                 tdContent = "<label class=\"red\">" + placeText

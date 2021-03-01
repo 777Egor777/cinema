@@ -16,6 +16,9 @@ import java.util.List;
 import java.util.Properties;
 
 /**
+ * Хранилище покупателей,
+ * использующее БД PostgreSQL.
+ *
  * @author Egor Geraskin(yegeraskin13@gmail.com)
  * @version 1.0
  * @since 23.01.2021

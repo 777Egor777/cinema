@@ -14,6 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Сервлет для страницы
+ * бронирования.
+ *
  * @author Egor Geraskin(yegeraskin13@gmail.com)
  * @version 1.0
  * @since 22.01.2021

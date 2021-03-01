@@ -5,6 +5,13 @@ import net.jcip.annotations.Immutable;
 import java.util.Objects;
 
 /**
+ * Модель данных "место в кинотеатре".
+ * Реализована в неизменяемой
+ * (Immutable) форме, потому что
+ * реальный онлайн-кинотеатр
+ * должен будет работать в
+ * многопоточной среде.
+ *
  * @author Egor Geraskin(yegeraskin13@gmail.com)
  * @version 1.0
  * @since 22.01.2021
@@ -12,8 +19,20 @@ import java.util.Objects;
 @Immutable
 public final class Place implements Comparable<Place> {
     private final int id;
+
+    /**
+     * Флаг, занято ли место.
+     */
     private final boolean isFilled;
+
+    /**
+     * Номер ряда.
+     */
     private final int row;
+
+    /**
+     * Номер места.
+     */
     private final int col;
 
     public Place(int id, int row, int col, boolean isFilled) {

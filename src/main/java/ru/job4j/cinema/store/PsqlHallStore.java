@@ -14,6 +14,9 @@ import java.sql.SQLException;
 import java.util.*;
 
 /**
+ * Хранилище кинозала,
+ * использующее БД PostgreSql.
+ *
  * @author Egor Geraskin(yegeraskin13@gmail.com)
  * @version 1.0
  * @since 23.01.2021
@@ -26,7 +29,13 @@ public class PsqlHallStore implements HallStore {
     private final static int MAX_IDLE_COUNT = 10;
     private final static int MAX_OPEN_PS_COUNT = 100;
     private final static String TABLE_NAME = "hall";
-    private final BasicDataSource pool = new BasicDataSource();
+    private final BasicDataSource pool;
+
+    private PsqlHallStore(BasicDataSource pool) {
+        this.pool = pool;
+        createTable();
+        init();
+    }
 
     private PsqlHallStore() {
         Properties cfg = new Properties();
@@ -40,6 +49,7 @@ public class PsqlHallStore implements HallStore {
         } catch (ClassNotFoundException e) {
             LOG.error("Exception when registering JDBC driver", e);
         }
+        pool = new BasicDataSource();
         pool.setDriverClassName(cfg.getProperty("jdbc.driver"));
         pool.setUrl(cfg.getProperty("jdbc.url"));
         pool.setUsername(cfg.getProperty("jdbc.username"));
@@ -95,6 +105,13 @@ public class PsqlHallStore implements HallStore {
 
     public static HallStore instOf() {
         return Holder.INSTANCE;
+    }
+
+    /**
+     * Только для тестов.
+     */
+    public static HallStore instanceForTest(BasicDataSource pool) {
+        return new PsqlHallStore(pool);
     }
 
     @Override

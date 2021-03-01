@@ -7,6 +7,7 @@ import ru.job4j.cinema.store.HallStore;
 import ru.job4j.cinema.store.MemHallStore;
 import ru.job4j.cinema.store.PsqlHallStore;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,14 +19,24 @@ import java.util.List;
 import java.util.Set;
 
 /**
+ * Сервлет - контроллер для страницы
+ * выбора мест.
+ *
  * @author Egor Geraskin(yegeraskin13@gmail.com)
  * @version 1.0
  * @since 22.01.2021
  */
 public class HallServlet extends HttpServlet {
+
+    /**
+     * Сюда поступают запросы
+     * c AJAX'а и актуальная
+     * информация о зале
+     * заполняется в динамическом
+     * режиме.
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        System.out.println("doGet");
         List<Place> places = PsqlHallStore.instOf().getPlaces();
         JSONObject obj = new JSONObject();
         obj.put("rowsNum", PsqlHallStore.instOf().getNumOfRows());
@@ -45,11 +56,17 @@ public class HallServlet extends HttpServlet {
         writer.flush();
     }
 
+    /**
+     * Сюда поступает запрос с местами, выбранными пользователем.
+     * Данные валидируются и перенаправляются на страницу
+     * бронирования.
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<Place> places = PsqlHallStore.instOf().getPlaces();
+        HallStore store = PsqlHallStore.instOf();
+        List<Place> places = store.getPlaces();
         List<Integer> reservedPlaces = new ArrayList<>();
-        Set<Integer> alreadyFilled = PsqlHallStore.instOf().getFilledIds();
+        Set<Integer> alreadyFilled = store.getFilledIds();
         for (Place place : places) {
             if (req.getParameter("place" + place.getId()) != null
             && !alreadyFilled.contains(place.getId())) {
@@ -57,6 +74,7 @@ public class HallServlet extends HttpServlet {
             }
         }
         req.setAttribute("reserved", reservedPlaces);
-        req.getRequestDispatcher("/payment.jsp").forward(req, resp);
+        RequestDispatcher disp = req.getRequestDispatcher("/payment.jsp");
+        disp.forward(req, resp);
     }
 }
