@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/777Egor777/cinema.svg?branch=master)](https://travis-ci.org/777Egor777/cinema)
+[![codecov](https://codecov.io/gh/777Egor777/cinema/branch/master/graph/badge.svg?token=VDMC5HDTU0)](https://codecov.io/gh/777Egor777/cinema)
 
 # Сервис "Кинотеатр"
 
